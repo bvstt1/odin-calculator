@@ -3,7 +3,7 @@ digit = document.createElement("p");
 digit.style.margin = "0px 15px";
 screen.appendChild(digit);
 
-// Buttons
+// Buttonss
 const buttonAC = document.querySelector("#button-AC");
 const buttonC = document.querySelector("#button-C");
 const buttonPlusMinus = document.querySelector("#button-plus-minus");
@@ -25,6 +25,7 @@ const buttonDecimal = document.querySelector("#button-decimal");
 const buttonEquals = document.querySelector("#button-equals");
 const buttonAdd = document.querySelector("#button-add");
 
+// Operator Functions
 function add(num1, num2){
     return num1 + num2;
 }
@@ -43,8 +44,8 @@ function divide(num1, num2){
 
 let operator = undefined;
 let arrayNum = [];
-let num2 = [];
 let intNum = 0;
+let plusMinus = true;
 
 function operate(operator, num1, num2){
     if (operator === "sum"){
@@ -69,6 +70,16 @@ button8.addEventListener("click", () => screenKey(8));
 button9.addEventListener("click", () => screenKey(9));
 button0.addEventListener("click", () => screenKey(0));
 
+function screenKey(num){
+    screen.style.backgroundColor="rgba(255, 215, 94, 0.52)";
+    arrayNum.push(num);
+    strNum = arrayNum.join("");
+    intNum = parseInt(strNum);
+    digit.textContent = intNum;
+    console.log(arrayNum)
+}
+
+
 buttonAC.addEventListener("click", () => {
     arrayNum = [];
     digit.textContent = "";
@@ -78,17 +89,32 @@ buttonAC.addEventListener("click", () => {
 
 buttonC.addEventListener("click", () => {
     arrayNum.pop();
-    console.log(arrayNum);
-    strNum = arrayNum.join("");
-    digit.textContent = strNum;
-
-});
-
-function screenKey(num){
-    screen.style.backgroundColor="rgba(255, 215, 94, 0.52)";
-    arrayNum.push(num);
     strNum = arrayNum.join("");
     intNum = parseInt(strNum);
-    digit.textContent = strNum;
-    return intNum;
-}
+    digit.textContent = intNum;
+    return;
+});
+
+buttonPlusMinus.addEventListener("click", () =>{
+    plusMinus = !plusMinus;
+    if (plusMinus === false){
+        console.log(plusMinus)
+        arrayNum.splice(0,1,(-arrayNum[0]))
+    }else{
+        console.log(plusMinus)
+        arrayNum.splice(0,1,(-arrayNum[0]))
+    }
+    strNum = arrayNum.join("");
+    intNum = parseInt(strNum);
+    digit.textContent = intNum;
+    console.log(arrayNum);
+    console.log(intNum);
+    return;
+    
+})
+
+buttonPercent.addEventListener("click", () => {
+    intNum = intNum * 0.01;
+    digit.textContent = intNum;
+    return;
+})
