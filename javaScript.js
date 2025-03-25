@@ -42,22 +42,15 @@ function divide(num1, num2){
     return num1 / num2;
 }
 
-let operator = undefined;
 let arrayNum = [];
 let intNum = 0;
+let intNum2 = 0;
 let plusMinus = true;
 
-function operate(operator, num1, num2){
-    if (operator === "sum"){
-        return add(num1, num2);
-    }else if(operator === "sub"){
-        return subtract(num1, num2);
-    }else if(operator === "mult"){
-        return multiply(num1, num2);
-    }else if(operator === "div"){
-        return divide(num1, num2);
-    }
-};
+let sum = false;
+let sub = false;
+let mult = false;
+let div = false;
 
 button1.addEventListener("click", () => screenKey(1));
 button2.addEventListener("click", () => screenKey(2));
@@ -72,11 +65,24 @@ button0.addEventListener("click", () => screenKey(0));
 
 function screenKey(num){
     screen.style.backgroundColor="rgba(255, 215, 94, 0.52)";
-    arrayNum.push(num);
-    strNum = arrayNum.join("");
-    intNum = parseInt(strNum);
-    digit.textContent = intNum;
-    console.log(arrayNum)
+
+    if (sum === true || sub === true || mult === true || div === true){
+        intNum2 = 0;
+        arrayNum.push(num);
+        strNum2 = arrayNum.join("");
+        intNum2 = parseInt(strNum2);
+        digit.textContent = intNum2;
+        console.log("este es el segundo numero: ",intNum2);
+    }else{
+        arrayNum.push(num);
+        strNum = arrayNum.join("");
+        intNum = parseInt(strNum);
+        digit.textContent = intNum;
+        console.log("este es el primer numero: ",intNum);
+    }
+    console.log("este es el primer numero: ",intNum);
+    console.log("este es el array: ", arrayNum);
+    console.log("este es el segundo numero: ",intNum2);
 }
 
 
@@ -118,3 +124,66 @@ buttonPercent.addEventListener("click", () => {
     digit.textContent = intNum;
     return;
 })
+
+buttonAdd.addEventListener("click", () => {
+    
+    arrayNum =[];
+    sum = true;
+    sub = false;
+    mult = false;
+    div = false;
+})
+
+buttonSubtract.addEventListener("click", () => {
+    arrayNum =[];
+    sum = false;
+    sub = true;
+    mult = false;
+    div = false;
+
+})
+
+buttonMultiply.addEventListener("click", () => {
+    arrayNum =[];
+    sum = false;
+    sub = false;
+    mult = true;
+    div = false;
+})
+
+buttonDivide.addEventListener("click", () => {
+    arrayNum =[];
+    digit.textContent = "";
+    sum = false;
+    sub = false;
+    mult = false;
+    div = true;
+})
+
+buttonEquals.addEventListener("click", () => operate());
+
+function operate(){
+    
+    if (sum === true){
+        sum = false;
+        result = intNum + intNum2;
+    }else if(sub === true){
+        sub = false;
+        result = intNum - intNum2;
+    }else if(mult === true){
+        mult = false;
+        result = intNum * intNum2;
+    }else if(div === true){
+        div = false;
+        result = intNum / intNum2;
+    }
+    arrayNum = [];
+    intNum = result;
+    digit.textContent = intNum;
+    arrayNum.push(intNum);
+    console.log("El resultado es: ",intNum)
+    console.log("este es el primer numero: ",intNum);
+    console.log("este es el array: ", arrayNum);
+    console.log("este es el segundo numero: ",intNum2);
+    return;
+};
