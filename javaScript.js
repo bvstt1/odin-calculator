@@ -42,7 +42,7 @@ function divide(num1, num2){
     return num1 / num2;
 }
 
-let arrayNum = [];
+let arrayNum = [0];
 let intNum = 0;
 let intNum2 = 0;
 let plusMinus = true;
@@ -67,19 +67,21 @@ function screenKey(num){
     screen.style.backgroundColor="rgba(255, 215, 94, 0.52)";
 
     if (sum === true || sub === true || mult === true || div === true){
+        contadd ++;
         intNum2 = 0;
         arrayNum.push(num);
         strNum2 = arrayNum.join("");
-        intNum2 = parseInt(strNum2);
+        intNum2 = Number(strNum2);
         digit.textContent = intNum2;
         console.log("este es el segundo numero: ",intNum2);
     }else{
         arrayNum.push(num);
         strNum = arrayNum.join("");
-        intNum = parseInt(strNum);
+        intNum = Number(strNum);
         digit.textContent = intNum;
         console.log("este es el primer numero: ",intNum);
     }
+    
     console.log("este es el primer numero: ",intNum);
     console.log("este es el array: ", arrayNum);
     console.log("este es el segundo numero: ",intNum2);
@@ -96,7 +98,7 @@ buttonAC.addEventListener("click", () => {
 buttonC.addEventListener("click", () => {
     arrayNum.pop();
     strNum = arrayNum.join("");
-    intNum = parseInt(strNum);
+    intNum = Number(strNum);
     digit.textContent = intNum;
     return;
 });
@@ -111,7 +113,7 @@ buttonPlusMinus.addEventListener("click", () =>{
         arrayNum.splice(0,1,(-arrayNum[0]))
     }
     strNum = arrayNum.join("");
-    intNum = parseInt(strNum);
+    intNum = Number(strNum);
     digit.textContent = intNum;
     console.log(arrayNum);
     console.log(intNum);
@@ -125,16 +127,30 @@ buttonPercent.addEventListener("click", () => {
     return;
 })
 
+contadd = 0
 buttonAdd.addEventListener("click", () => {
-    
+    buttonAdd.style.backgroundColor = "#a0d692";
+    buttonSubtract.style.backgroundColor = "#A9C46C";
+    buttonMultiply.style.backgroundColor = "#A9C46C";
+    buttonDivide.style.backgroundColor = "#A9C46C";
+    contadd ++;
     arrayNum =[];
+    console.log(contadd)
     sum = true;
     sub = false;
     mult = false;
     div = false;
+    console.log(sum)
+    if (contadd === 2 || sub === true || mult === true || div === true){
+        buttonAdd.style.backgroundColor = "#A9C46C";
+        sum = false;
+        contadd = 0;
+    }
+    console.log(contadd)
 })
 
 buttonSubtract.addEventListener("click", () => {
+    buttonSubtract.style.backgroundColor = "#a0d692";
     arrayNum =[];
     sum = false;
     sub = true;
@@ -144,6 +160,7 @@ buttonSubtract.addEventListener("click", () => {
 })
 
 buttonMultiply.addEventListener("click", () => {
+    buttonMultiply.style.backgroundColor = "#a0d692";
     arrayNum =[];
     sum = false;
     sub = false;
@@ -152,6 +169,7 @@ buttonMultiply.addEventListener("click", () => {
 })
 
 buttonDivide.addEventListener("click", () => {
+    buttonDivide.style.backgroundColor = "#a0d692";
     arrayNum =[];
     digit.textContent = "";
     sum = false;
@@ -166,15 +184,19 @@ function operate(){
     
     if (sum === true){
         sum = false;
+        buttonAdd.style.backgroundColor = "#A9C46C";
         result = intNum + intNum2;
     }else if(sub === true){
         sub = false;
+        buttonSubtract.style.backgroundColor = "#A9C46C";
         result = intNum - intNum2;
     }else if(mult === true){
         mult = false;
+        buttonMultiply.style.backgroundColor = "#A9C46C";
         result = intNum * intNum2;
     }else if(div === true){
         div = false;
+        buttonDivide.style.backgroundColor = "#A9C46C";
         result = intNum / intNum2;
     }
     arrayNum = [];
