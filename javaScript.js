@@ -143,18 +143,13 @@ function resetOperations() {
 
 function operationButtons(operateButton1, operateButton2, operateButton3, operateButton4){
 
-    operateButton1.style.backgroundColor = "#a0d692";
-    operateButton2.style.backgroundColor = "#A9C46C";
-    operateButton3.style.backgroundColor = "#A9C46C";
-    operateButton4.style.backgroundColor = "#A9C46C";
-/////////////////////////////////////
+    // Operate Add
     arrayNum = [];
     if (operateButton1 === buttonAdd){
         contAdd ++;
         sum = true;
         sub = mult = div = false;
         if(contSub > 0){
-            operateButton1.style.backgroundColor = "#A9C46C";
             contSub = 0;
             sum = false;
             sub = true;
@@ -163,20 +158,18 @@ function operationButtons(operateButton1, operateButton2, operateButton3, operat
             contAdd = 1;
             operate();
         }else if(contMult > 0){
-            operateButton1.style.backgroundColor = "#A9C46C";
             contMult = 0;
             mult = true;
             sum = false;
             operate();
         }else if (contDiv > 0){
-            operateButton1.style.backgroundColor = "#A9C46C";
             contDiv = 0;
             div = true;
             sum = false;
             operate();
         }
     }
-//////////////////////
+    // Operate Substract
     if (operateButton1 === buttonSubtract){
         contSub ++;
         sub = true;
@@ -185,26 +178,23 @@ function operationButtons(operateButton1, operateButton2, operateButton3, operat
             contAdd = 0;
             sub = false;
             sum = true;
-            operateButton1.style.backgroundColor = "#A9C46C";
             operate();
         }else if(contSub === 2){
             contSub = 1;
             operate();
         }else if(contMult > 0){
-            operateButton1.style.backgroundColor = "#A9C46C";
             contMult = 0;
             mult = true;
             sub = false;
             operate();
         }else if (contDiv > 0){
-            operateButton1.style.backgroundColor = "#A9C46C";
             contDiv = 0;
             div = true;
             sub = false;
             operate();
         }
     }
-//////////////////////
+    // Operate Multiply
     if (operateButton1 === buttonMultiply){
         contMult ++;
         mult = true;
@@ -213,19 +203,16 @@ function operationButtons(operateButton1, operateButton2, operateButton3, operat
             contAdd = 0;
             mult = false;
             sum = true;
-            operateButton1.style.backgroundColor = "#A9C46C";
             operate();
         }else if(contMult === 2){
             contMult = 1;
             operate();
         }else if(contSub > 0){
-            operateButton1.style.backgroundColor = "#A9C46C";
             contSub=0;
             sub = true;
             mult = false;
             operate();
         }else if (contDiv > 0){
-            operateButton1.style.backgroundColor = "#A9C46C";
             contDiv = 0;
             div = true;
             mult = false;
@@ -233,6 +220,7 @@ function operationButtons(operateButton1, operateButton2, operateButton3, operat
         }
     }
 
+    // Operate Divide
     if (operateButton1 === buttonDivide){
         contDiv ++;
         div = true;
@@ -241,19 +229,16 @@ function operationButtons(operateButton1, operateButton2, operateButton3, operat
             contAdd = 0;
             div = false;
             sum = true;
-            operateButton1.style.backgroundColor = "#A9C46C";
             operate();
         }else if(contDiv === 2){
             contDiv = 1;
             operate();
         }else if(contSub > 0){
-            operateButton1.style.backgroundColor = "#A9C46C";
             contSub=0;
             sub = true;
             div = false;
             operate();
         }else if (contMult > 0){
-            operateButton1.style.backgroundColor = "#A9C46C";
             contMult = 0;
             mult = true;
             div = false;
