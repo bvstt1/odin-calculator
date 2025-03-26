@@ -67,7 +67,6 @@ function screenKey(num){
     screen.style.backgroundColor="rgba(255, 215, 94, 0.52)";
 
     if (sum === true || sub === true || mult === true || div === true){
-        contadd ++;
         intNum2 = 0;
         arrayNum.push(num);
         strNum2 = arrayNum.join("");
@@ -89,6 +88,7 @@ function screenKey(num){
 
 
 buttonAC.addEventListener("click", () => {
+    resetOperations();
     arrayNum = [];
     digit.textContent = "";
     screen.style.backgroundColor = "#362f1ca2"
@@ -127,82 +127,165 @@ buttonPercent.addEventListener("click", () => {
     return;
 })
 
-contadd = 0
-buttonAdd.addEventListener("click", () => {
-    buttonAdd.style.backgroundColor = "#a0d692";
+contAdd = 0;
+contSub = 0;
+contMult = 0;
+contDiv = 0;
+
+function resetOperations() {
+    sum = sub = mult = div = false
+    contAdd = contDiv = contMult = contMult = 0;
+    buttonAdd.style.backgroundColor = "#A9C46C";
     buttonSubtract.style.backgroundColor = "#A9C46C";
     buttonMultiply.style.backgroundColor = "#A9C46C";
     buttonDivide.style.backgroundColor = "#A9C46C";
-    contadd ++;
-    arrayNum =[];
-    console.log(contadd)
-    sum = true;
-    sub = false;
-    mult = false;
-    div = false;
-    console.log(sum)
-    if (contadd === 2 || sub === true || mult === true || div === true){
-        buttonAdd.style.backgroundColor = "#A9C46C";
-        sum = false;
-        contadd = 0;
+}
+
+function operationButtons(operateButton1, operateButton2, operateButton3, operateButton4){
+
+    operateButton1.style.backgroundColor = "#a0d692";
+    operateButton2.style.backgroundColor = "#A9C46C";
+    operateButton3.style.backgroundColor = "#A9C46C";
+    operateButton4.style.backgroundColor = "#A9C46C";
+/////////////////////////////////////
+    arrayNum = [];
+    if (operateButton1 === buttonAdd){
+        contAdd ++;
+        sum = true;
+        sub = mult = div = false;
+        if(contSub > 0){
+            operateButton1.style.backgroundColor = "#A9C46C";
+            contSub = 0;
+            sum = false;
+            sub = true;
+            operate();
+        }else if(contAdd === 2){
+            contAdd = 1;
+            operate();
+        }else if(contMult > 0){
+            operateButton1.style.backgroundColor = "#A9C46C";
+            contMult = 0;
+            mult = true;
+            sum = false;
+            operate();
+        }else if (contDiv > 0){
+            operateButton1.style.backgroundColor = "#A9C46C";
+            contDiv = 0;
+            div = true;
+            sum = false;
+            operate();
+        }
     }
-    console.log(contadd)
-})
+//////////////////////
+    if (operateButton1 === buttonSubtract){
+        contSub ++;
+        sub = true;
+        sum = mult = div = false;
+        if(contAdd > 0){
+            contAdd = 0;
+            sub = false;
+            sum = true;
+            operateButton1.style.backgroundColor = "#A9C46C";
+            operate();
+        }else if(contSub === 2){
+            contSub = 1;
+            operate();
+        }else if(contMult > 0){
+            operateButton1.style.backgroundColor = "#A9C46C";
+            contMult = 0;
+            mult = true;
+            sub = false;
+            operate();
+        }else if (contDiv > 0){
+            operateButton1.style.backgroundColor = "#A9C46C";
+            contDiv = 0;
+            div = true;
+            sub = false;
+            operate();
+        }
+    }
+//////////////////////
+    if (operateButton1 === buttonMultiply){
+        contMult ++;
+        mult = true;
+        sum = sub = div = false;
+        if(contAdd > 0){
+            contAdd = 0;
+            mult = false;
+            sum = true;
+            operateButton1.style.backgroundColor = "#A9C46C";
+            operate();
+        }else if(contMult === 2){
+            contMult = 1;
+            operate();
+        }else if(contSub > 0){
+            operateButton1.style.backgroundColor = "#A9C46C";
+            contSub=0;
+            sub = true;
+            mult = false;
+            operate();
+        }else if (contDiv > 0){
+            operateButton1.style.backgroundColor = "#A9C46C";
+            contDiv = 0;
+            div = true;
+            mult = false;
+            operate();
+        }
+    }
 
-buttonSubtract.addEventListener("click", () => {
-    buttonSubtract.style.backgroundColor = "#a0d692";
-    arrayNum =[];
-    sum = false;
-    sub = true;
-    mult = false;
-    div = false;
+    if (operateButton1 === buttonDivide){
+        contDiv ++;
+        div = true;
+        sum = sub = mult = false;
+        if(contAdd > 0){
+            contAdd = 0;
+            div = false;
+            sum = true;
+            operateButton1.style.backgroundColor = "#A9C46C";
+            operate();
+        }else if(contDiv === 2){
+            contDiv = 1;
+            operate();
+        }else if(contSub > 0){
+            operateButton1.style.backgroundColor = "#A9C46C";
+            contSub=0;
+            sub = true;
+            div = false;
+            operate();
+        }else if (contMult > 0){
+            operateButton1.style.backgroundColor = "#A9C46C";
+            contMult = 0;
+            mult = true;
+            div = false;
+            operate();
+        }
+    }
+    console.log("contAdd:", contAdd, "contSub:", contSub, "contMult:", contMult, "contDiv:", contDiv);
+}
 
-})
+buttonAdd.addEventListener("click", () => operationButtons(buttonAdd, buttonSubtract, buttonMultiply, buttonDivide));
+buttonSubtract.addEventListener("click", () => operationButtons(buttonSubtract, buttonAdd, buttonMultiply, buttonDivide));
+buttonMultiply.addEventListener("click", () => operationButtons(buttonMultiply, buttonAdd, buttonSubtract, buttonDivide));
+buttonDivide.addEventListener("click", () => operationButtons(buttonDivide, buttonAdd, buttonSubtract, buttonMultiply));
 
-buttonMultiply.addEventListener("click", () => {
-    buttonMultiply.style.backgroundColor = "#a0d692";
-    arrayNum =[];
-    sum = false;
-    sub = false;
-    mult = true;
-    div = false;
-})
-
-buttonDivide.addEventListener("click", () => {
-    buttonDivide.style.backgroundColor = "#a0d692";
-    arrayNum =[];
-    digit.textContent = "";
-    sum = false;
-    sub = false;
-    mult = false;
-    div = true;
-})
 
 buttonEquals.addEventListener("click", () => operate());
 
 function operate(){
     
     if (sum === true){
-        sum = false;
-        buttonAdd.style.backgroundColor = "#A9C46C";
         result = intNum + intNum2;
     }else if(sub === true){
-        sub = false;
-        buttonSubtract.style.backgroundColor = "#A9C46C";
         result = intNum - intNum2;
     }else if(mult === true){
-        mult = false;
-        buttonMultiply.style.backgroundColor = "#A9C46C";
         result = intNum * intNum2;
     }else if(div === true){
-        div = false;
-        buttonDivide.style.backgroundColor = "#A9C46C";
         result = intNum / intNum2;
     }
     arrayNum = [];
     intNum = result;
     digit.textContent = intNum;
-    arrayNum.push(intNum);
+    intNum2 = 0;
     console.log("El resultado es: ",intNum)
     console.log("este es el primer numero: ",intNum);
     console.log("este es el array: ", arrayNum);
