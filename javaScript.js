@@ -1,11 +1,12 @@
+//Select screen and create the number paragraph to show
 const screen = document.querySelector("#screen");
 digit = document.createElement("p");
-digit.style.margin = "0px 15px";
+digit.style.padding = "0px 15px"
 screen.appendChild(digit);
 
-// Buttonss
+// Buttons
 const buttonAC = document.querySelector("#button-AC");
-const buttonC = document.querySelector("#button-C");
+const buttonDEL = document.querySelector("#button-DEL");
 const buttonPlusMinus = document.querySelector("#button-plus-minus");
 const buttonPercent = document.querySelector("#button-percent");
 const button7 = document.querySelector("#button-7");
@@ -25,33 +26,19 @@ const buttonDecimal = document.querySelector("#button-decimal");
 const buttonEquals = document.querySelector("#button-equals");
 const buttonAdd = document.querySelector("#button-add");
 
-// Operator Functions
-function add(num1, num2){
-    return num1 + num2;
-}
+// Global Variables
+let arrayNum = [];
+let intNum = null;
+let intNum2 = null;
 
-function subtract(num1, num2){
-    return num1 + num2;
-}
-
-function multiply(num1, num2){
-    return num1 * num2;
-}
-
-function divide(num1, num2){
-    return num1 / num2;
-}
-
-let arrayNum = [0];
-let intNum = 0;
-let intNum2 = 0;
-let plusMinus = true;
-
+// Boolean Operations
 let sum = false;
 let sub = false;
 let mult = false;
 let div = false;
 
+
+// Buttons events
 button1.addEventListener("click", () => screenKey(1));
 button2.addEventListener("click", () => screenKey(2));
 button3.addEventListener("click", () => screenKey(3));
@@ -63,217 +50,150 @@ button8.addEventListener("click", () => screenKey(8));
 button9.addEventListener("click", () => screenKey(9));
 button0.addEventListener("click", () => screenKey(0));
 
-function screenKey(num){
-    screen.style.backgroundColor="rgba(255, 215, 94, 0.52)";
+function screenKey(num) {
 
-    if (sum === true || sub === true || mult === true || div === true){
-        intNum2 = 0;
+    digit.style.fontSize = "100px"
+
+    // Simulating calculator on
+    screen.style.backgroundColor = "rgb(219, 255, 240)";
+
+    // Display and save numbers in to the variables intNum and intNum2, according if a boolean operations is true or not
+    if (sum || sub || mult || div) {
+        intNum2 = null;
         arrayNum.push(num);
-        strNum2 = arrayNum.join("");
+        let strNum2 = arrayNum.join("");
         intNum2 = Number(strNum2);
         digit.textContent = intNum2;
-        console.log("este es el segundo numero: ",intNum2);
-    }else{
+    } else {
+        colorOperation();
         arrayNum.push(num);
-        strNum = arrayNum.join("");
+        let strNum = arrayNum.join("");
         intNum = Number(strNum);
         digit.textContent = intNum;
-        console.log("este es el primer numero: ",intNum);
     }
-    
-    console.log("este es el primer numero: ",intNum);
-    console.log("este es el array: ", arrayNum);
-    console.log("este es el segundo numero: ",intNum2);
 }
 
-
+// Function and AC button event to delete and reset all parameters
 buttonAC.addEventListener("click", () => {
-    resetOperations();
+    sum = sub = mult = div = false;
     arrayNum = [];
+    colorOperation();
     digit.textContent = "";
-    screen.style.backgroundColor = "#362f1ca2"
-
+    screen.style.backgroundColor = "rgba(190, 190, 190, 0.71)";
 });
 
-buttonC.addEventListener("click", () => {
+// Function and C button event to delete the last number entered
+buttonDEL.addEventListener("click", () => {
     arrayNum.pop();
-    strNum = arrayNum.join("");
+    let strNum = arrayNum.join("");
     intNum = Number(strNum);
-    digit.textContent = intNum;
-    return;
+    digit.textContent = strNum;
 });
 
-buttonPlusMinus.addEventListener("click", () =>{
-    plusMinus = !plusMinus;
-    if (plusMinus === false){
-        console.log(plusMinus)
-        arrayNum.splice(0,1,(-arrayNum[0]))
-    }else{
-        console.log(plusMinus)
-        arrayNum.splice(0,1,(-arrayNum[0]))
+
+buttonPlusMinus.addEventListener("click", () => {
+    if (sum || sub || mult || div) {
+        if (intNum2 !== null) {
+            intNum2 = -intNum2;
+            digit.textContent = intNum2;
+        }
+    } else {
+        if (intNum !== null) {
+            intNum = -intNum;
+            digit.textContent = intNum;
+        }
     }
+});
+
+
+buttonDecimal.addEventListener("click",()=>{
+
+    if(arrayNum.includes(".")){
+        return;
+    }
+    arrayNum.push(".");
     strNum = arrayNum.join("");
-    intNum = Number(strNum);
-    digit.textContent = intNum;
-    console.log(arrayNum);
-    console.log(intNum);
-    return;
-    
+    digit.textContent = strNum;
 })
 
-buttonPercent.addEventListener("click", () => {
+
+buttonPercent.addEventListener("click",() =>{
     intNum = intNum * 0.01;
+    arrayNum = [];
+    arrayNum.push(intNum);
+    strNum = arrayNum.join("");
+    arrayNum = strNum.split("");
     digit.textContent = intNum;
-    return;
 })
 
-contAdd = 0;
-contSub = 0;
-contMult = 0;
-contDiv = 0;
 
-function resetOperations() {
-    sum = sub = mult = div = false
-    contAdd = contDiv = contMult = contMult = 0;
-    buttonAdd.style.backgroundColor = "#A9C46C";
-    buttonSubtract.style.backgroundColor = "#A9C46C";
-    buttonMultiply.style.backgroundColor = "#A9C46C";
-    buttonDivide.style.backgroundColor = "#A9C46C";
+// Function to change the color if the boolean operation variable is true or not
+function colorOperation() {
+    buttonAdd.style.backgroundColor = sum ? "#def7a4" : "#A9C46C";
+    buttonSubtract.style.backgroundColor = sub ? "#def7a4" : "#A9C46C";
+    buttonMultiply.style.backgroundColor = mult ? "#def7a4" : "#A9C46C";
+    buttonDivide.style.backgroundColor = div ? "#def7a4" : "#A9C46C";
 }
 
-function operationButtons(operateButton1, operateButton2, operateButton3, operateButton4){
-
-    // Operate Add
-    arrayNum = [];
-    if (operateButton1 === buttonAdd){
-        contAdd ++;
+function operationButtons(operateButton) {
+    // It is checked when an operation is active before activating the next one.
+    if (sum || sub || mult || div) {
+        operate();
+    }
+    
+    // If the button pressed is the operation, the varible acording to the operation is set to true, the others set to false, and executes the formula
+    if (operateButton === buttonAdd) {
         sum = true;
         sub = mult = div = false;
-        if(contSub > 0){
-            contSub = 0;
-            sum = false;
-            sub = true;
-            operate();
-        }else if(contAdd === 2){
-            contAdd = 1;
-            operate();
-        }else if(contMult > 0){
-            contMult = 0;
-            mult = true;
-            sum = false;
-            operate();
-        }else if (contDiv > 0){
-            contDiv = 0;
-            div = true;
-            sum = false;
-            operate();
-        }
-    }
-    // Operate Substract
-    if (operateButton1 === buttonSubtract){
-        contSub ++;
+    } else if (operateButton === buttonSubtract) {
         sub = true;
         sum = mult = div = false;
-        if(contAdd > 0){
-            contAdd = 0;
-            sub = false;
-            sum = true;
-            operate();
-        }else if(contSub === 2){
-            contSub = 1;
-            operate();
-        }else if(contMult > 0){
-            contMult = 0;
-            mult = true;
-            sub = false;
-            operate();
-        }else if (contDiv > 0){
-            contDiv = 0;
-            div = true;
-            sub = false;
-            operate();
-        }
-    }
-    // Operate Multiply
-    if (operateButton1 === buttonMultiply){
-        contMult ++;
+    } else if (operateButton === buttonMultiply) {
         mult = true;
         sum = sub = div = false;
-        if(contAdd > 0){
-            contAdd = 0;
-            mult = false;
-            sum = true;
-            operate();
-        }else if(contMult === 2){
-            contMult = 1;
-            operate();
-        }else if(contSub > 0){
-            contSub=0;
-            sub = true;
-            mult = false;
-            operate();
-        }else if (contDiv > 0){
-            contDiv = 0;
-            div = true;
-            mult = false;
-            operate();
-        }
-    }
-
-    // Operate Divide
-    if (operateButton1 === buttonDivide){
-        contDiv ++;
+    } else if (operateButton === buttonDivide) {
         div = true;
         sum = sub = mult = false;
-        if(contAdd > 0){
-            contAdd = 0;
-            div = false;
-            sum = true;
-            operate();
-        }else if(contDiv === 2){
-            contDiv = 1;
-            operate();
-        }else if(contSub > 0){
-            contSub=0;
-            sub = true;
-            div = false;
-            operate();
-        }else if (contMult > 0){
-            contMult = 0;
-            mult = true;
-            div = false;
-            operate();
-        }
     }
-    console.log("contAdd:", contAdd, "contSub:", contSub, "contMult:", contMult, "contDiv:", contDiv);
+    
+    arrayNum = [];
+    colorOperation();
 }
 
-buttonAdd.addEventListener("click", () => operationButtons(buttonAdd, buttonSubtract, buttonMultiply, buttonDivide));
-buttonSubtract.addEventListener("click", () => operationButtons(buttonSubtract, buttonAdd, buttonMultiply, buttonDivide));
-buttonMultiply.addEventListener("click", () => operationButtons(buttonMultiply, buttonAdd, buttonSubtract, buttonDivide));
-buttonDivide.addEventListener("click", () => operationButtons(buttonDivide, buttonAdd, buttonSubtract, buttonMultiply));
-
+buttonAdd.addEventListener("click", () => operationButtons(buttonAdd));
+buttonSubtract.addEventListener("click", () => operationButtons(buttonSubtract));
+buttonMultiply.addEventListener("click", () => operationButtons(buttonMultiply));
+buttonDivide.addEventListener("click", () => operationButtons(buttonDivide));
 
 buttonEquals.addEventListener("click", () => operate());
 
-function operate(){
-    
-    if (sum === true){
-        result = intNum + intNum2;
-    }else if(sub === true){
-        result = intNum - intNum2;
-    }else if(mult === true){
-        result = intNum * intNum2;
-    }else if(div === true){
-        result = intNum / intNum2;
+function operate() {
+    // Verify that both numbers are defined and are not null
+    if (intNum === null || intNum2 === null) {
+        return;  // Does not perform the operation if any number is missing
     }
+
+    if (sum) {
+        intNum = intNum + intNum2;
+    } else if (sub) {
+        intNum = intNum - intNum2;
+    } else if (mult) {
+        intNum = intNum * intNum2;
+    } else if (div) {
+        if (intNum2 === 0) {
+            digit.textContent = "ERROR!";
+            intNum = null;
+            div = false;
+            arrayNum = [];
+            colorOperation();
+            return;  // Does not perform the operation if an attempt is made to divide by zero
+        }
+        intNum = intNum / intNum2;
+    }
+    // Reset the operating variables
+    sum = sub = mult = div = false;
     arrayNum = [];
-    intNum = result;
-    digit.textContent = intNum;
-    intNum2 = 0;
-    console.log("El resultado es: ",intNum)
-    console.log("este es el primer numero: ",intNum);
-    console.log("este es el array: ", arrayNum);
-    console.log("este es el segundo numero: ",intNum2);
-    return;
-};
+    intNum2 = null;
+    digit.textContent = intNum;  // Show the result
+    colorOperation();  // Update the buttons colors
+}
