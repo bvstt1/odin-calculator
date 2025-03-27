@@ -1,7 +1,7 @@
 //Select screen and create the number paragraph to show
 const screen = document.querySelector("#screen");
 digit = document.createElement("p");
-digit.style.padding = "0px 15px"
+digit.style.padding = "0px 15px";
 screen.appendChild(digit);
 
 // Buttons
@@ -77,6 +77,7 @@ function screenKey(num) {
 buttonAC.addEventListener("click", () => {
     sum = sub = mult = div = false;
     arrayNum = [];
+    intNum = null;
     colorOperation();
     digit.textContent = "";
     screen.style.backgroundColor = "rgba(190, 190, 190, 0.71)";
@@ -84,6 +85,9 @@ buttonAC.addEventListener("click", () => {
 
 // Function and C button event to delete the last number entered
 buttonDEL.addEventListener("click", () => {
+    if (intNum === null){
+        return;
+    }
     arrayNum.pop();
     let strNum = arrayNum.join("");
     intNum = Number(strNum);
@@ -118,6 +122,9 @@ buttonDecimal.addEventListener("click",()=>{
 
 
 buttonPercent.addEventListener("click",() =>{
+    if(intNum === null){
+        return;
+    }
     intNum = intNum * 0.01;
     arrayNum = [];
     arrayNum.push(intNum);
